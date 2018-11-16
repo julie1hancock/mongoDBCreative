@@ -1,47 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Comments!</title>
+<title>:-)</title>
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="javascripts/comments.js"></script>
 <style>
-    body{
-        background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLDHQJ2sjZ_bEQfOmSQKLRY9Yk-YAsY-JAb-EujewBh-bNB1uBYw");
-        background-color:#008080;
-    }
-    label{
-        color:white;
-        text-shadow: 3px 2px blue;
 
-    }
-    div{
-        color:white;
-        font-size:150%;
-    }
+body{
+    background-image:url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLDHQJ2sjZ_bEQfOmSQKLRY9Yk-YAsY-JAb-EujewBh-bNB1uBYw");
+    background-color:#008080;
+}
+label{
+    color:white;
+    text-shadow: 3px 2px blue;
+}
+div{
+    color:white;
+    font-size:150%;
+}
     
 </style>
 </head>
 
 <body>
 <form id="commentForm" action="">
-<label for="name">Name: </label><input type="text" id="name" placeholder="Name"><br>
+<label for="name">Username: </label><input type="text" id="name" placeholder="Username"><br>
+<label for="password">Password: </label><input type="password" id="password" placeholder="Password"><br>
 <label for="comment">Comment: </label><input type="text" id="comment" placeholder="Comment"><br>
-
 </form>
 
-<button id="postComment">Post Comment</button>
-<button id="getComments">Get Comments</button>
-<button id="deleteComments">Delete All</button>
+<button id="register">Register & Comment</button>
+<button id="login">Login & Comment</button>
+<button id="users">Get list users</button>
+<button id="clear">Delete everything!!!</button>
 <br><br>
 <form>
 
 </form>
-<div id="json"></div>
-<div id="done"></div>
-<div id="comments"></div>
-
-
-
+<div id="success"></div><br>
+<div id="comments">COMMENTS:<ul><li>be the first to comment!</li></ul></div>
 
 
 </body>
