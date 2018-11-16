@@ -1,11 +1,48 @@
 $(document).ready(function(){
 
-  var commentList = "COMMENTS:<ul>";
-  function comment(){
-    var c = "<li>" + $("#name").val() + ": \"" + $("#comment").val() + "\"" + "</li>";
-    commentList+= c;
-    $("#comments").html(commentList + "</ul>");
+  commentFirst();
+  
+  
+  
+  function commentFirst(){
+       var url = "commentFirst";
+        $.ajax({
+        url:url,
+        type: "GET",
+          contentType: "application/json; charset=utf-8",
+          success: function(data,textStatus) {
+             var everything = "COMMENTS:<ul>"
+          for(var i = 0; i < data.length; i++){
+            everything += "<li>" + data[i].Name + ": " + data[i].Comment + "</li>";
+          }
+          everything += "</ul>"
+          $("#comments").html(everything);
+          }
+        })
   }
+  
+  
+  function comment(){
+    var myobj = {Name:$("#name").val(),Comment:$("#comment").val()};
+      var jobj = JSON.stringify(myobj);
+      var url = "comment";
+        $.ajax({
+        url:url,
+        type: "POST",
+        data: jobj,
+        contentType: "application/json; charset=utf-8",
+        success: function(data,textStatus) {
+          var everything = "COMMENTS:<ul>"
+          for(var i = 0; i < data.length; i++){
+            everything += "<li>" + data[i].Name + ": " + data[i].Comment + "</li>";
+          }
+          everything += "</ul>"
+          $("#comments").html(everything);
+        }//end success
+      })
+    }
+    
+    
 
   $("#register").click(function(){
       var myobj = {Name:$("#name").val(),Password:$("#password").val()};
@@ -53,11 +90,7 @@ $(document).ready(function(){
           }
         }
         })//end ajax
-  });//end #register
-
-
-
-
+  });//end #login
 
 
 
@@ -70,38 +103,32 @@ $(document).ready(function(){
 
 
  $("#users").click(function() {
-  /*    var myobj = {Name:$("#name").val(),Comment:$("#comment").val()};
-      var jobj = JSON.stringify(myobj);
-      $("#json").text(jobj);
-    */  
       var url = "users";
         $.ajax({
         url:url,
         type: "GET",
-//        data
           contentType: "application/json; charset=utf-8",
           success: function(data,textStatus) {
-            var every = "USERS:<ul>";
+            var every = "USERS: no users found";
+            if(data.length != 0){
+              every = "USERS:<ul>"
+        
             for(var i = 0; i < data.length; i++){
-            //  console.log("NAME:" + data[0].Name);
               every = every + "<li>" + data[i].Name + "</li>";
             }
             every += "</ul>";
-            $("#success").html(every);
+              
+            }
+            $("#comments").html(every);
           }
         })
 })
 
 
-
-
-
-
  $("#clear").click(function() {
       var myobj = {Name:$("#name").val(),Comment:$("#comment").val()};
       var jobj = JSON.stringify(myobj);
-          $("#json").text(jobj);
-      
+
       var url = "delete";
         $.ajax({
         url:url,
@@ -109,73 +136,11 @@ $(document).ready(function(){
         data: jobj,
         contentType: "application/json; charset=utf-8",
         success: function(data,textStatus) {
+          $("#success").text("you deleted all users and comments");          
         }
         })
        $("#comments").html("COMMENTS:");
  
    
  })
-
-
-
-
-/*  $("#postComment").click(function(){
-      var myobj = {Name:$("#name").val(),Comment:$("#comment").val()};
-      jobj = JSON.stringify(myobj);
-      $("#json").text(jobj);
-      
-      var url = "comment";
-        $.ajax({
-        url:url,
-        type: "POST",
-        data: jobj,
-        contentType: "application/json; charset=utf-8",
-        success: function(data,textStatus) {
-            $("#done").html(textStatus);
-        }
-        })
-        $("#comments").html("");
-  });
-  
-   $("#getComments").click(function() {
-    $.getJSON('comment', function(data) {
-      console.log(data);
-      var everything = "no comments :-(";
-      if(data[0]){
-          var everything = "<ul>";
-          for(var comment in data) {
-            com = data[comment];
-            everything += "<li> Name: " + com.Name + " -- Comment: " + com.Comment + "</li>";
-          }
-          everything += "</ul>";
-      }
-      $("#comments").html(everything);
-      $("#json").text("");
-      $("#done").text("");
-    })
-  })
-  
-  
-    $("#deleteComments").click(function() {
-        console.log("trying to delete comments");
-        
-        var myobj = {Name:$("#name").val(),Comment:$("#comment").val()};
-          jobj = JSON.stringify(myobj);
-          $("#json").text(jobj);
-      
-      var url = "delete";
-        $.ajax({
-        url:url,
-        type: "POST",
-        data: jobj,
-        contentType: "application/json; charset=utf-8",
-        success: function(data,textStatus) {
-            $("#done").html(textStatus);
-        }
-        })
-        
-        $("#json").text("");
-        $("#comments").text("");
-    })
-*/
 });

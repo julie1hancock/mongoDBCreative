@@ -16,7 +16,7 @@ var User = mongoose.model('User', userSchema); //Makes an object from that schem
 
 var commentSchema = mongoose.Schema({ //Defines the Schema for this database
     Name: String,
-    Password: String
+    Comment: String
 });
 
 var Comment = mongoose.model('Comment', commentSchema); //Makes an object from that schema as a model
@@ -77,11 +77,10 @@ router.post('/login', function(req, res, next) {
 router.get('/users', function(req, res, next) {
   console.log("GET user route");
 
-  User.find(function(err,userList) { //Calls the find() method on your database
-    if (err) return console.error(err); //If there's an error, print it out
+  User.find(function(err,userList) { 
+    if (err) return console.error(err);
     else {
-    console.log(userList); //Otherwise console log the comments you found
-    res.json(userList); //Then send the comments
+    res.json(userList);
   }
 })
 });
@@ -89,49 +88,33 @@ router.get('/users', function(req, res, next) {
 router.post('/delete', function(req, res, next) {
 console.log("POST delete route");
   User.remove().exec();
+  Comment.remove().exec();
 });
+
 
 router.post('/comment', function(req, res, next) {
 console.log("POST comment route"); 
-console.log(req.body); 
-
+      
     var newcomment = new Comment(req.body); 
-    console.log(newcomment); 
     newcomment.save(function(err, post) { 
         if (err) return console.error(err);
-        console.log(post);
-        res.sendStatus(200);
+        Comment.find(function(err,userList) { 
+          if (err) return console.error(err); 
+          else {
+            res.json(userList); 
+          }
+        })
     });
-    
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-router.get('/comment', function(req, res, next) {
-console.log("In the GET route?");
-Comment.find(function(err,commentList) { //Calls the find() method on your database
-  if (err) return console.error(err); //If there's an error, print it out
-  else {
-    console.log(commentList); //Otherwise console log the comments you found
-    res.json(commentList); //Then send the comments
-  }
-})
-
+router.get('/commentFirst', function(req, res, next) {
+  console.log("GET commentFirst route"); 
+        
+    Comment.find(function(err,userList) { 
+      if (err) return console.error(err); 
+      else res.json(userList); 
+    })
 });
-
-
-
 
 
 module.exports = router;
